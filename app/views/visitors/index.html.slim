@@ -1,0 +1,15 @@
+.jumbotron.expense-data.text-center
+  .data-section
+    p last month
+    h2 $#{@last_month.per_day.round(2)}
+    small $#{@last_month.total_spent.round(2)} spent
+
+  .data-section
+    p this month
+    h1 $#{@this_month.per_day.round(2)}
+    small #{Time.now.end_of_month.day - Time.now.day} days left, $#{@this_month.total_spent.round(2)} spent so far
+
+  .data-section
+    p daily budget left to match last month
+    h2 $#{@this_month.daily_budget_to_match_last_month.round(2)}
+    small $#{@this_month.total_budget_to_match_last_month.round(2)} total left to spend
