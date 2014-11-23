@@ -23,4 +23,15 @@ class Transaction < ActiveRecord::Base
     end
 
   end
+
+  def self.for_tag(tag)
+    
+    if tag
+      where("tags like ?", "%#{tag}%")
+    else
+      where('true = true')
+    end
+
+  end
+
 end

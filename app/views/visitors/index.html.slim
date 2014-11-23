@@ -1,13 +1,9 @@
 .jumbotron.expense-data.text-center
   .data-section
-    p last month
-    h2 $#{@last_month.per_day.round(2)}
-    small $#{@last_month.total_spent.round(2)} spent
+    = render 'shared/expenses', {expenses: @last_month, label: 'last month'}
 
-  .data-section
-    p this month
-    h1 $#{@this_month.per_day.round(2)}
-    small #{Time.now.end_of_month.day - Time.now.day} days left, $#{@this_month.total_spent.round(2)} spent so far
+  .data-section.current
+    = render 'shared/expenses', {expenses: @this_month, label: 'this month'}
 
   .data-section
     p daily budget left to match last month
