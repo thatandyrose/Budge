@@ -9,3 +9,8 @@
     p daily budget left to match last month
     h2 $#{@this_month.daily_budget_to_match_last_month.round(2)}
     small $#{@this_month.total_budget_to_match_last_month.round(2)} total left to spend
+
+  .data-section
+    p actual current budget
+    h2 $#{@actual_budget.per_day_ahead.round(2)}
+    small last income received #{time_ago_in_words(@actual_budget.transactions.last.date)}
