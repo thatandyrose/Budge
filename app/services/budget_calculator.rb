@@ -16,4 +16,13 @@ class BudgetCalculator
     end
 
   end
+
+  def per_day_average
+
+    @per_day_average ||= begin
+      days = Transaction.last.date - Transaction.first.date
+      total_income/days
+    end
+
+  end
 end

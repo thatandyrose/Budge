@@ -2,15 +2,18 @@
   .data-section
     = render 'shared/expenses', {expenses: @last_month, label: 'last month'}
 
-  .data-section.current
-    = render 'shared/expenses', {expenses: @this_month, label: 'this month'}
+  - if @this_month.transactions.any?
+    .data-section.current
+      = render 'shared/expenses', {expenses: @this_month, label: 'this month'}
 
-  .data-section
-    p daily budget left to match last month
-    h2 $#{@this_month.daily_budget_to_match_last_month.round(2)}
-    small $#{@this_month.total_budget_to_match_last_month.round(2)} total left to spend
+    .data-section
+      p daily budget left to match last month
+      h2 $#{@this_month.daily_budget_to_match_last_month.round(2)}
+      small $#{@this_month.total_budget_to_match_last_month.round(2)} total left to spend
 
-  .data-section
-    p actual current budget
-    h2 $#{@actual_budget.per_day_ahead.round(2)}
-    small last income received #{time_ago_in_words(@actual_budget.transactions.last.date)}
+    .data-section
+      p actual current / total average budget
+      h2 $#{@actual_budget.per_day_ahead.round(2)} / $#{@actual_budget.per_day_average.round(2)}
+      small last income received #{time_ago_in_words(@actual_budget.transactions.last.date)}
+  - else
+    .data-section: h2 No data for the current month
