@@ -11,8 +11,12 @@ class BudgetCalculator
   def per_day_ahead
     
     @per_day_ahead ||= begin
-      days = transactions.last.date - transactions.first.date
-      total_income/(days + 30)
+      if transactions.any?
+        days = transactions.last.date - transactions.first.date
+        total_income/(days + 30)
+      else
+        0
+      end
     end
 
   end

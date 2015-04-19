@@ -14,6 +14,7 @@
     .data-section
       p actual current / total average budget
       h2 $#{@actual_budget.per_day_ahead.round(2)} / $#{@actual_budget.per_day_average.round(2)}
-      small last income received #{time_ago_in_words(@actual_budget.transactions.last.date)}
+      - if Transaction.incomes.last
+        small last income received #{time_ago_in_words(Transaction.incomes.last.date)} ago
   - else
     .data-section: h2 No data for the current month
