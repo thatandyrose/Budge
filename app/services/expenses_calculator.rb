@@ -32,16 +32,19 @@ class ExpensesCalculator
 
   def month_length
 
-    @month_length ||= case month.beginning_of_month
-    
-    when Transaction.first.date.beginning_of_month
-      #its the first month of usage
-      month.end_of_month.day - transactions.first.date.day
-    when Time.now.beginning_of_month
-      #its the current month
-      transactions.last.date.day
-    else
-      month.end_of_month.day
+    @month_length ||= begin
+
+      case month.beginning_of_month
+      
+      when Transaction.first && Transaction.first.date.beginning_of_month
+        #its the first month of usage
+        month.end_of_month.day - transactions.first.date.day
+      when Time.now.beginning_of_month
+        #its the current month
+        transactions.last.date.day
+      else
+        month.end_of_month.day
+      end
     end
 
   end
