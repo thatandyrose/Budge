@@ -1,10 +1,10 @@
 describe Transaction do
   let!(:uri){ File.join Rails.root, 'spec', 'scafolding', 'toshl_export.csv' }
 
-  describe 'import' do
+  describe 'import tolsh' do
 
     before do
-      Transaction.import(uri)
+      Transaction.import(:tolsh, uri)
     end
 
     it 'should import all records' do

@@ -5,25 +5,8 @@ class Transaction < ActiveRecord::Base
   scope :expenses, ->{ where(transaction_type:'expense') }
   scope :incomes, ->{ where(transaction_type:'income') }
 
-  def self.import(uri)
-    
-    Transaction.transaction do
-      destroy_all
-
-      CsvParser.new(uri).iterate_csv do |row|
-        is_income = row[:income_amount].present?
-        
-        create!(
-          date: Date.parse(row[:date]),
-          amount: (is_income ? row[:income_amount] : row[:expense_amount]).gsub(',','').to_d,
-          transaction_type: is_income ? 'income' : 'expense',
-          description: row[:description],
-          tags: row[:entry_tags].split(',').map(&:strip)
-        )
-      end
-
-    end
-
+  def self.import(format, uri)
+    "Importers::#{format.to_s.titleize}Importer".constantize.new(uri).import
   end
 
   def self.for_tag(tag)
