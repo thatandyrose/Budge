@@ -1,16 +1,19 @@
 FactoryGirl.define do
   factory :transaction do
-    date "2014-11-20"
-    amount "9.99"
-    tags "MyText"
-    transaction_type "MyString"
+    date { Time.now }
+    amount 10
     description "MyText"
 
     trait :income do
       transaction_type 'income'
     end
 
+    trait :expense do
+      transaction_type 'expense'
+    end
+
     factory :income_transaction, traits: [:income]
+    factory :expense_transaction, traits: [:expense]
   end
 
 end
