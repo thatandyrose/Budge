@@ -17,7 +17,7 @@ feature 'income' do
     it 'should not show any data' do
 
       within(:css, '.budget-data') do
-        expect(page).to have_content '$0.0 / $0.0'
+        expect(page).to have_content '$0.00 / $0.0'
       end
 
     end
@@ -57,7 +57,7 @@ feature 'income' do
     it 'should show yearly data and no recent data' do
 
       within(:css, '.budget-data') do
-        expect(page).to have_content '$0.0 / $0.12'
+        expect(page).to have_content '$0.00 / $0.12'
       end
 
     end

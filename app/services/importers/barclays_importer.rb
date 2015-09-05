@@ -21,7 +21,7 @@ module Importers
             date: Date.parse(row[:date]),
             amount: row[:amount].gsub(',','').to_d.abs,
             transaction_type: is_income ? 'income' : 'expense',
-            description: "#{row[:subcategory]}: #{row[:memo].split(" ").select(&:present?).join(" ")}"
+            description: "#{row[:subcategory]}: #{row[:memo].split(" ").select(&:present?).join(" ")}".encode('UTF-8')
           )
 
           t.save! if is_new(t)

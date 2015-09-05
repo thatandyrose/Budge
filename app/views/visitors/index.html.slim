@@ -9,18 +9,19 @@
 
       .data-section
         p daily budget left to match last month
-        h2 $#{@this_month.daily_budget_to_match_last_month.round(2)}
-        small $#{@this_month.total_budget_to_match_last_month.round(2)} total left to spend
+        h2 #{number_to_currency(@this_month.daily_budget_to_match_last_month.round(2))}
+        small #{number_to_currency(@this_month.total_budget_to_match_last_month.round(2))} total left to spend
 
     - else
       .data-section: h2 No data for the current month
 
   .budget-data: .data-section
     p recent / yearly - average per day budget
-    h2 $#{@actual_budget.per_day_recent.round(2)} / $#{@actual_budget.per_day_year.round(2)}
+    h2 #{number_to_currency(@actual_budget.per_day_recent.round(2))} / #{number_to_currency(@actual_budget.per_day_year.round(2))}
     - if Transaction.incomes.last
       small last income received #{time_ago_in_words(Transaction.incomes.last.date)} ago
 
   .data-section
     p projected annual salary
-    h2 $#{@actual_budget.per_year.round(2)}
+    h2 #{number_to_currency(@actual_budget.per_year.round(2))}
+    small received #{number_to_currency(@actual_budget.total_year_income)} so far this year

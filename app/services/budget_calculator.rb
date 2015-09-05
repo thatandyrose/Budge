@@ -21,6 +21,10 @@ class BudgetCalculator
     @total_income ||= calculate_income(transactions)
   end
 
+  def total_year_income
+    @total_year_income ||= calculate_income(year_transactions)
+  end
+
   def calculate_income(_transactions)
     _transactions.map(&:amount).sum
   end
@@ -42,7 +46,7 @@ class BudgetCalculator
     @per_day_year ||= begin
       if year_transactions.any?
         days = @end_date - @end_date.beginning_of_year
-        calculate_income(year_transactions)/days
+        total_year_income/days
       else
         0
       end
