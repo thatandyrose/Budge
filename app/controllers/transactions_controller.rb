@@ -1,5 +1,13 @@
 class TransactionsController < ApplicationController
 
+  def index
+    if params[:month]
+      @transactions = Transaction.order_latest.for_month(params[:month])
+    else
+      @transactions = Transaction.order_latest
+    end    
+  end
+
   def import
     
     if params[:uri].present?

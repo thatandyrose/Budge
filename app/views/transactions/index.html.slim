@@ -1,0 +1,13 @@
+table.table
+  thead: tr
+    th date
+    th amount
+    th description
+    th tags
+  tbody
+    - @transactions.each do |t|
+      tr
+        td = t.date
+        td = number_to_currency(t.amount)
+        td = t.description
+        td = t.tags

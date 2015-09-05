@@ -32,7 +32,8 @@ describe Transaction do
       t = Transaction.incomes.find_by(date: Date.parse('2015-04-17') ) 
 
       expect(t.amount).to eq 95
-      expect(t.description).to eq "DIRECTDEP: A Kalo MONKEY FACE BGC"
+      expect(t.raw_description).to eq "DIRECTDEP: A Kalo MONKEY FACE BGC"
+      expect(t.description).to eq "A Kalo MONKEY FACE"
     end
 
     it 'should import expenses' do
@@ -46,9 +47,13 @@ describe Transaction do
       expect(t2.amount).to eq 27.08
       expect(t3.amount).to eq 9.99
 
-      expect(t1.description).to eq "CASH: POSTE ITALIANE ITALY"
-      expect(t2.description).to eq "PAYMENT: VUE BSL LTD ON 25 JUN BCC"
-      expect(t3.description).to eq "PAYMENT: SPOTIFY SPOTIFY PR ON 25 JUN BCC"
+      expect(t1.raw_description).to eq "CASH: POSTE ITALIANE ITALY"
+      expect(t2.raw_description).to eq "PAYMENT: VUE BSL LTD ON 25 JUN BCC"
+      expect(t3.raw_description).to eq "PAYMENT: SPOTIFY SPOTIFY PR ON 25 JUN BCC"
+
+      expect(t1.description).to eq "POSTE ITALIANE ITALY"
+      expect(t2.description).to eq "VUE BSL LTD"
+      expect(t3.description).to eq "SPOTIFY SPOTIFY PR"
     end
   end
 
