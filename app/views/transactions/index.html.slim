@@ -3,11 +3,8 @@ table.table
     th date
     th amount
     th description
-    th tags
+    th category
+    th
   tbody
     - @transactions.each do |t|
-      tr
-        td = t.date
-        td = number_to_currency(t.amount)
-        td = t.description
-        td = t.tags
+      = render 'transaction_row', t: t

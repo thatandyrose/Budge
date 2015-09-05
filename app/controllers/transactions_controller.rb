@@ -8,6 +8,11 @@ class TransactionsController < ApplicationController
     end    
   end
 
+  def update
+    @transaction = Transaction.find params[:id]
+    @transaction.update_attributes! strong_params
+  end
+
   def import
     
     if params[:uri].present?
@@ -15,6 +20,12 @@ class TransactionsController < ApplicationController
       redirect_to root_path
     end
     
+  end
+
+  private
+
+  def strong_params
+    params.require(:transaction).permit :category
   end
 
 end
