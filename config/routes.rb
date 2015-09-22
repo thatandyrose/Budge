@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   
   resources :transactions do
+    get :apply_category_to_similar, on: :member
     get :import, on: :collection
   end
 

@@ -3,7 +3,16 @@ tr class='transaction-row-#{t.id}'
   td = number_to_currency(t.amount)
   td = t.description
   td: span.label.label-default = t.category
-  td = form_for t, remote: true, html: {class: 'form-inline'} do |f|
-    .form-group
-      = f.select :category, options_for_select(Transaction::CATEGORIES), {prompt: 'select a category'}, class: 'form-control'
-    = f.submit 'add category', class: 'btn btn-primary', data:{ disable_with: 'saving category' }
+  td
+    = form_for t, remote: true, html: {class: 'form-inline'} do |f|
+      = hidden_field_tag :month, params[:month]
+      = hidden_field_tag :month, params[:transaction_type]
+      = hidden_field_tag :category, params[:category]
+
+      .form-group
+        = f.select :category, options_for_select(Transaction::CATEGORIES), {prompt: 'select a category'}, class: 'form-control'
+      = f.submit 'add category', class: 'btn btn-primary', data:{ disable_with: 'saving category' }
+  td
+    - if t.category.present?
+      a.btn.btn-primary data-no-turbolink='true' href='#{apply_category_to_similar_transaction_path(t, month: params[:month], transaction_type: params[:transaction_type], category: params[:category])}' Apply to similar
+  td: input.quick-sum-checkbox type="checkbox" value="#{t.amount}"

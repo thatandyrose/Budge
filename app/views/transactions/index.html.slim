@@ -1,3 +1,12 @@
+ul.nav.nav-tabs
+  li class='#{'active' if params[:transaction_type] == 'expense'}': a href="#{transactions_path(month: params[:month], transaction_type: 'expense')}" Expenses
+  li class='#{'active' if params[:transaction_type] == 'income'}': a href="#{transactions_path(month: params[:month], transaction_type: 'income')}" Incomes
+
+ul.nav.nav-pills
+  - @categories.each do |cat|
+    li class="#{'active' if params[:category] == cat}": a data-no-turbolink='true' href='#{transactions_path(month: params[:month], transaction_type: params[:transaction_type], category: cat)}' #{cat} <span class="badge">#{number_to_currency @pre_category_transactions.for_category(cat).pluck(:amount).sum}</span>
+
+#quick-sum
 table.table
   thead: tr
     th date
@@ -5,6 +14,8 @@ table.table
     th description
     th category
     th
+    th
+    th quick sum
   tbody
     - @transactions.each do |t|
       = render 'transaction_row', t: t

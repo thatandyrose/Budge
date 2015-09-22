@@ -1,15 +1,20 @@
 class TransactionsController < ApplicationController
+  before_action :load_transaction, only: [:update, :apply_category_to_similar]
 
   def index
-    if params[:month]
-      @transactions = Transaction.order_latest.for_month(params[:month])
-    else
-      @transactions = Transaction.order_latest
-    end    
+    params[:transaction_type] ||= 'expense'
+
+    @pre_category_transactions = Transaction.filter(params.except(:category))
+    @categories = @pre_category_transactions.pluck(:category).uniq.to_a.select(&:present?)
+    @transactions = Transaction.filter(params)
   end
 
-  def update
-    @transaction = Transaction.find params[:id]
+  def apply_category_to_similar
+    @transaction.apply_category_to_similar!
+    redirect_to transactions_path(month: params[:month])
+  end
+
+  def update    
     @transaction.update_attributes! strong_params
   end
 
@@ -23,6 +28,10 @@ class TransactionsController < ApplicationController
   end
 
   private
+
+  def load_transaction
+    @transaction = Transaction.find params[:id]
+  end
 
   def strong_params
     params.require(:transaction).permit :category

@@ -10,6 +10,12 @@ class Transaction < ActiveRecord::Base
     where(date: [d.beginning_of_month..d.end_of_month])
   }
 
+  scope :for_category, ->(category){
+    where(category: category)
+  }
+
+  before_save :update_description_id
+
   CATEGORIES = [
     'utilities/telecomms',
     'entertainment/events/culture',
@@ -32,6 +38,24 @@ class Transaction < ActiveRecord::Base
     'rent'
   ]
 
+  def self.filter(params)
+    query = order_latest
+
+    if params[:month].present?
+      query = query.for_month(params[:month])
+    end
+
+    if params[:transaction_type].present?
+      query = query.where(transaction_type: params[:transaction_type])
+    end
+
+    if params[:category].present?
+      query = query.where(category: params[:category])
+    end
+    
+    query
+  end
+
   def self.import(format, uri)
     "Importers::#{format.to_s.titleize}Importer".constantize.new(uri).import
   end
@@ -44,6 +68,21 @@ class Transaction < ActiveRecord::Base
       where('true = true')
     end
 
+  end
+
+  def apply_category_to_similar!
+    
+    if description.present? && description_id.present?
+      Transaction
+        .where(description_id: description_id)
+        .where("category is null OR category = ''")
+        .update_all category: category
+    end
+
+  end
+
+  def update_description_id
+    self.description_id = description.urlify
   end
 
 end
