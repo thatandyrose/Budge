@@ -14,6 +14,19 @@ feature 'transactions index' do
     it 'should show me my transactions' do
       expect(page.status_code).to eq 200
       expect(page).to have_content 'some expense'
+      expect(page).to_not have_content 'some income'
+    end
+  end
+
+  context 'when I visit the page and hit the income tab' do
+    before do
+      visit transactions_path
+      click_on 'Incomes'
+    end
+
+    it 'should show me my transactions' do
+      expect(page.status_code).to eq 200
+      expect(page).to_not have_content 'some expense'
       expect(page).to have_content 'some income'
     end
   end

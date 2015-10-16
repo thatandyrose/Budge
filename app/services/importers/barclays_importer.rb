@@ -1,6 +1,6 @@
 module Importers
 
-  class BarclaysImporter
+  class BarclaysImporter < BaseImporter
 
     def initialize(uri)
       @uri = uri
@@ -56,7 +56,7 @@ module Importers
             description: BarclaysImporter.trim(BarclaysImporter.clean_raw_description(row[:memo]))
           )
 
-          t.save! if is_new(t)
+          save_transaction!(t) if is_new(t)
         end
 
       end
