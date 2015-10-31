@@ -6,8 +6,8 @@ class Transaction < ActiveRecord::Base
   scope :incomes, ->{ where(transaction_type:'income') }
   scope :similar, ->(description_id){ where(description_id: description_id) }
   
-  scope :for_month, ->(date){
-    d = Date.parse(date)
+  scope :for_month, ->(date_str){
+    d = Date.parse(date_str)
     where(date: [d.beginning_of_month..d.end_of_month])
   }
 
@@ -95,6 +95,10 @@ class Transaction < ActiveRecord::Base
       
     end
 
+  end
+
+  def has_dupe?
+    Transaction.where(date: date, amount: amount, transaction_type: transaction_type, description: description).where.not(id: id).any?
   end
 
   def update_description_id

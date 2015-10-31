@@ -22,23 +22,31 @@ module Importers
     end
 
     def self.remove_date(description)
-      parts = description.split " "
-      
-      on_index = parts.index 'ON'
+      description.gsub(extract_date_str(description).to_s, '')
+    end
 
-      if on_index
-        parts.delete_at on_index + 1
-        parts.delete_at on_index + 1
-        parts.delete_at on_index
-
-        parts.join " "
-      else
-        description
+    def self.extract_date(description)
+      if d = extract_date_str(description)
+        Date.parse d
       end
     end
 
-    def is_new(transaction)
-      !Transaction.where(date: transaction.date, amount: transaction.amount, transaction_type: transaction.transaction_type, description: transaction.description).any?
+    def self.extract_date_str(description)
+      parts = trim(description).split " "
+      on_index = parts.index 'ON'
+      
+      if on_index
+        date_str = "#{parts[on_index]} #{parts[on_index + 1]} #{parts[on_index + 2]}"
+
+        begin
+          Date.parse date_str
+          date_str
+        rescue Exception => e
+          nil
+        end
+
+      end
+
     end
 
     def import
@@ -56,7 +64,7 @@ module Importers
             description: BarclaysImporter.trim(BarclaysImporter.clean_raw_description(row[:memo]))
           )
 
-          save_transaction!(t) if is_new(t)
+          save_transaction!(t) if !t.has_dupe?
         end
 
       end
