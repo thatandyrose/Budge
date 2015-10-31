@@ -50,18 +50,17 @@ module Importers
     end
 
     def import
-
       Transaction.transaction do
 
         CsvParser.new(@uri).iterate_csv do |row|
           is_income = row[:amount].to_d > 0
           
           t = Transaction.new(
-            date: Date.parse(row[:date]),
+            date: self.class.extract_date(row[:memo]) || Date.parse(row[:date]),
             amount: row[:amount].gsub(',','').to_d.abs,
             transaction_type: is_income ? 'income' : 'expense',
-            raw_description: "#{row[:subcategory]}: #{BarclaysImporter.trim(row[:memo])}".encode('UTF-8'),
-            description: BarclaysImporter.trim(BarclaysImporter.clean_raw_description(row[:memo]))
+            raw_description: "#{row[:subcategory]}: #{self.class.trim(row[:memo])}".encode('UTF-8'),
+            description: self.class.trim(self.class.clean_raw_description(row[:memo]))
           )
 
           save_transaction!(t) if !t.has_dupe?

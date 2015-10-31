@@ -40,15 +40,15 @@ describe Transaction do
       expect(Transaction.expenses.count).to eq 3
 
       t1 = Transaction.expenses.find_by(date: Date.parse('2015-04-14'))
-      t2 = Transaction.expenses.find_by(date: Date.parse('2015-04-15'))
-      t3 = Transaction.expenses.find_by(date: Date.parse('2015-04-16'))
+      t2 = Transaction.expenses.find_by(date: Date.parse('2015-06-28'))
+      t3 = Transaction.expenses.find_by(date: Date.parse('2015-06-25'))
 
       expect(t1.amount).to eq 52.85
       expect(t2.amount).to eq 27.08
       expect(t3.amount).to eq 9.99
 
       expect(t1.raw_description).to eq "CASH: POSTE ITALIANE ITALY"
-      expect(t2.raw_description).to eq "PAYMENT: VUE BSL LTD ON 25 JUN BCC"
+      expect(t2.raw_description).to eq "PAYMENT: VUE BSL LTD ON 28 JUN BCC"
       expect(t3.raw_description).to eq "PAYMENT: SPOTIFY SPOTIFY PR ON 25 JUN BCC"
 
       expect(t1.description).to eq "POSTE ITALIANE ITALY"
