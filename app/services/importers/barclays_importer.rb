@@ -7,7 +7,7 @@ module Importers
     end
 
     def self.sanitize(description)
-      description.chars.select(&:valid_encoding?).join
+      description.chars.select(&:valid_encoding?).join.encode('UTF-8')
     end
 
     def self.clean_raw_description(description)
@@ -65,11 +65,12 @@ module Importers
             date: self.class.extract_date(memo) || Date.parse(row[:date]),
             amount: row[:amount].gsub(',','').to_d.abs,
             transaction_type: is_income ? 'income' : 'expense',
-            raw_description: "#{row[:subcategory]}: #{self.class.trim(memo)}".encode('UTF-8'),
+            raw_description: "#{row[:subcategory]}: #{self.class.trim(memo)}",
             description: self.class.trim(self.class.clean_raw_description(memo))
           )
 
           save_transaction!(t) if !t.has_dupe?
+          
         end
 
       end
