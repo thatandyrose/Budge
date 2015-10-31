@@ -6,6 +6,10 @@ module Importers
       @uri = uri
     end
 
+    def self.sanitize(description)
+      description.chars.select(&:valid_encoding?).join
+    end
+
     def self.clean_raw_description(description)
       to_remove = ['CLP', 'BCC', 'BGC']
       
@@ -55,12 +59,14 @@ module Importers
         CsvParser.new(@uri).iterate_csv do |row|
           is_income = row[:amount].to_d > 0
           
+          memo = self.class.sanitize row[:memo]
+
           t = Transaction.new(
-            date: self.class.extract_date(row[:memo]) || Date.parse(row[:date]),
+            date: self.class.extract_date(memo) || Date.parse(row[:date]),
             amount: row[:amount].gsub(',','').to_d.abs,
             transaction_type: is_income ? 'income' : 'expense',
-            raw_description: "#{row[:subcategory]}: #{self.class.trim(row[:memo])}".encode('UTF-8'),
-            description: self.class.trim(self.class.clean_raw_description(row[:memo]))
+            raw_description: "#{row[:subcategory]}: #{self.class.trim(memo)}".encode('UTF-8'),
+            description: self.class.trim(self.class.clean_raw_description(memo))
           )
 
           save_transaction!(t) if !t.has_dupe?
