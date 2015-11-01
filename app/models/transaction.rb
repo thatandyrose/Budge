@@ -88,7 +88,7 @@ class Transaction < ActiveRecord::Base
       Transaction.transaction do
         similar_to_me
           .where("category is null OR category = ''")
-          .update_all category: category
+          .update_all category: category, triggered_apply_to_similar: Date.today
         
         self.update_attributes! triggered_apply_to_similar: Date.today
       end

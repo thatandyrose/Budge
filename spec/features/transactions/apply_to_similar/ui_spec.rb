@@ -74,6 +74,13 @@ feature 'apply to similar ui' do
         expect(Transaction.where(category: nil).count).to eq 1
       end
 
+      it 'should triggered_apply_to_similar on affected transactions' do
+        trans = Transaction.where(category: 'whatever').to_a
+
+        expect(trans.first.triggered_apply_to_similar).to eq Date.today
+        expect(trans.second.triggered_apply_to_similar).to eq Date.today
+      end
+
     end
 
   end
