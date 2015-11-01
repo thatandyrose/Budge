@@ -1,3 +1,30 @@
+do toggler = ->
+
+  init = ->
+    $('a[data-toggle]').on 'click', (e) ->
+      e.preventDefault()
+      $($(this).data('toggle')).toggle()
+
+  $(document).ready -> init()
+  $(document).on 'ajaxSuccess', -> init()
+
+  return {
+
+  }
+
+do categorySelect = ->
+  
+  init = ->
+    $('.select-category').on 'change', ->
+      $(this).closest('form').submit();
+
+  $(document).ready -> init()
+  $(document).on 'ajaxSuccess', -> init()
+
+  return {
+
+  }
+
 do quickSum = ->
   
   init = ->
@@ -11,7 +38,8 @@ do quickSum = ->
 
       $('#quick-sum').html total
 
-  $(document).ready -> init()  
+  $(document).ready -> init()
+  $(document).on 'ajaxSuccess', -> init() 
 
   return {
 

@@ -6,14 +6,14 @@ feature 'update category' do
     @transaction = FactoryGirl.create :expense_transaction, description: 'Itsu', date: Time.parse('2015-02-01')
   end
 
-  context 'when I update the category' do
+  context 'when I update the category', js:true do
 
     before do
       visit transactions_path
       
       within :css, ".transaction-row-#{@transaction.id}" do
         select('haircut', from: :transaction_category)
-        click_on 'add category'
+        wait_for_ajax
       end
     end
 

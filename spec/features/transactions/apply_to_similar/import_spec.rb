@@ -12,8 +12,6 @@ feature 'apply to similar import' do
       before do
         visit transactions_path
         select 'haircut', from: :transaction_category
-        click_on 'add category'
-
         wait_for_ajax
       end
 
@@ -21,6 +19,7 @@ feature 'apply to similar import' do
 
         before do
           click_on 'Apply to similar'
+          wait_for_ajax
         end
 
         context 'and then I import a transaction with a similar description' do

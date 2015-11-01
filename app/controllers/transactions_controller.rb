@@ -11,7 +11,7 @@ class TransactionsController < ApplicationController
 
   def apply_category_to_similar
     @transaction.apply_category_to_similar!
-    redirect_to transactions_path(month: params[:month])
+    @transactions = Transaction.filter(params)
   end
 
   def update    

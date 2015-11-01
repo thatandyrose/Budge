@@ -16,6 +16,4 @@ table.table
     th
     th
     th quick sum
-  tbody
-    - @transactions.each do |t|
-      = render 'transaction_row', t: t
+  tbody = render 'transaction_rows'
