@@ -12,7 +12,12 @@ class Transaction < ActiveRecord::Base
   }
 
   scope :for_category, ->(category){
-    where(category: category)
+    if category == 'none'
+      where(category: nil)
+    else
+      where(category: category)
+    end
+    
   }
 
   before_save :update_description_id
@@ -51,7 +56,7 @@ class Transaction < ActiveRecord::Base
     end
 
     if params[:category].present?
-      query = query.where(category: params[:category])
+      query = query.for_category params[:category]
     end
     
     query

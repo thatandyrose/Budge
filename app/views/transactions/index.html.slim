@@ -4,7 +4,7 @@ ul.nav.nav-tabs
 
 ul.nav.nav-pills
   - @categories.each do |cat|
-    li class="#{'active' if params[:category] == cat}": a data-no-turbolink='true' href='#{transactions_path(month: params[:month], transaction_type: params[:transaction_type], category: cat)}' #{cat} <span class="badge">#{number_to_currency @pre_category_transactions.for_category(cat).pluck(:amount).sum}</span>
+    li class="#{'active' if params[:category] == cat}": a data-no-turbolink='true' href='#{transactions_path(month: params[:month], transaction_type: params[:transaction_type], category: cat)}' #{cat || 'no category'} <span class="badge">#{number_to_currency @pre_category_transactions.for_category(cat).pluck(:amount).sum}</span>
 
 #quick-sum
 table.table

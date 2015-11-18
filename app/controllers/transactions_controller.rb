@@ -5,7 +5,7 @@ class TransactionsController < ApplicationController
     params[:transaction_type] ||= 'expense'
 
     @pre_category_transactions = Transaction.filter(params.except(:category))
-    @categories = @pre_category_transactions.pluck(:category).uniq.to_a.select(&:present?)
+    @categories = @pre_category_transactions.pluck(:category).uniq.to_a.select(&:present?) + ['none']
     @transactions = Transaction.filter(params)
   end
 
