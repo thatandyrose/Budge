@@ -1,3 +1,21 @@
+do swapper = ->
+
+  init = ->
+    $('[data-swapper]').each ->
+      container = $(this)
+      container.append("<button class='js-swapper-button'>swap</button>")
+
+      container.find('.js-swapper-button').on 'click', ->
+        container.hide()
+        $(container.data('swapper')).show()
+
+  $(document).ready -> init()
+  $(document).on 'ajaxSuccess', -> init()
+
+  return {
+
+  }
+
 do toggler = ->
 
   init = ->
@@ -13,7 +31,7 @@ do toggler = ->
   }
 
 do categorySelect = ->
-  
+
   init = ->
     $('.select-category').on 'change', ->
       $(this).closest('form').submit();
@@ -26,12 +44,12 @@ do categorySelect = ->
   }
 
 do quickSum = ->
-  
+
   init = ->
 
     $('input.quick-sum-checkbox').on 'click', ->
       total = 0
-      
+
       $('input.quick-sum-checkbox:checked').each ->
         cbox = $(this)
         total += parseFloat cbox.val()
@@ -39,7 +57,7 @@ do quickSum = ->
       $('#quick-sum').html total
 
   $(document).ready -> init()
-  $(document).on 'ajaxSuccess', -> init() 
+  $(document).on 'ajaxSuccess', -> init()
 
   return {
 

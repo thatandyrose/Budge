@@ -1,7 +1,12 @@
 tr class='transaction-row-#{t.id}'
   td = t.date.strftime("%a, %d %b, %Y")
   td = number_to_currency(t.amount)
-  td = t.description
+  td
+    .description-container
+      | #{t.description} |
+      a href='#' data-toggle=".js-raw-description-container-#{t.id}" show raw
+    div class="js-raw-description-container-#{t.id}" style='display: none;'
+      small #{t.original_date} | #{t.raw_description}
   td: a href='#' data-toggle="#edit_transaction_#{t.id}": span.label.label-default = t.category
   td
     = form_for t, remote: true, html: {class: "form-inline", style: "#{'display: none;' if t.category.present?}"} do |f|
