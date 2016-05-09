@@ -5,7 +5,7 @@ class Transaction < ActiveRecord::Base
   scope :expenses, ->{ where(transaction_type:'expense') }
   scope :incomes, ->{ where(transaction_type:'income') }
   scope :similar, ->(description_id){ where(description_id: description_id) }
-  
+
   scope :for_month, ->(date_str){
     d = Date.parse(date_str)
     where(date: [d.beginning_of_month..d.end_of_month])
@@ -17,7 +17,7 @@ class Transaction < ActiveRecord::Base
     else
       where(category: category)
     end
-    
+
   }
 
   before_save :update_description_id
@@ -41,7 +41,8 @@ class Transaction < ActiveRecord::Base
     'taxi',
     'shopping',
     'groceries',
-    'rent'
+    'rent',
+    'internal transfer'
   ]
 
   def self.filter(params)
@@ -58,7 +59,7 @@ class Transaction < ActiveRecord::Base
     if params[:category].present?
       query = query.for_category params[:category]
     end
-    
+
     query
   end
 
@@ -67,7 +68,7 @@ class Transaction < ActiveRecord::Base
   end
 
   def self.for_tag(tag)
-    
+
     if tag
       where("tags like ?", "%#{tag}%")
     else
@@ -87,17 +88,17 @@ class Transaction < ActiveRecord::Base
   end
 
   def apply_category_to_similar!
-    
+
     if description.present? && description_id.present?
-      
+
       Transaction.transaction do
         similar_to_me
           .where("category is null OR category = ''")
           .update_all category: category, triggered_apply_to_similar: Date.today
-        
+
         self.update_attributes! triggered_apply_to_similar: Date.today
       end
-      
+
     end
 
   end
