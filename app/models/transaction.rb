@@ -42,7 +42,8 @@ class Transaction < ActiveRecord::Base
     'shopping',
     'groceries',
     'rent',
-    'internal transfer'
+    'internal transfer',
+    'tax'
   ]
 
   def self.filter(params)
