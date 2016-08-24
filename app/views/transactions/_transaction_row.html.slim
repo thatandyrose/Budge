@@ -15,7 +15,7 @@ tr class='transaction-row-#{t.id}'
       = hidden_field_tag :category, params[:category]
 
       .form-group
-        = f.select :category, options_for_select(Transaction::CATEGORIES), {prompt: 'select a category'}, class: 'form-control select-category'
+        = f.select :category, options_for_select(Transaction::CATEGORIES.sort.uniq), {prompt: 'select a category'}, class: 'form-control select-category'
       = f.submit 'add category', class: 'btn btn-primary hide', data:{ disable_with: 'saving category' }
   td
     - if t.category.present? && !t.triggered_apply_to_similar
