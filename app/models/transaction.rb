@@ -44,7 +44,8 @@ class Transaction < ActiveRecord::Base
     'rent',
     'internal transfer',
     'tax',
-    'company admin'
+    'company admin',
+    '** suspicious/unknown'
   ]
 
   def self.filter(params)
