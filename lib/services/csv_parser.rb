@@ -8,7 +8,7 @@ class CsvParser
   end
 
   def file
-    @file ||= open(@file_uri)
+    @file ||= open(@file_uri, "r:ISO-8859-1")
   end
 
   def iterate_csv(&block)
