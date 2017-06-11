@@ -43,6 +43,7 @@ class Transaction < ActiveRecord::Base
     'groceries',
     'rent',
     'internal transfer',
+    'current account transfer'
     'tax',
     'company admin',
     '** suspicious/unknown'
