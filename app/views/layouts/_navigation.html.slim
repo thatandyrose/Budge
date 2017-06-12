@@ -11,4 +11,5 @@ nav.navbar.navbar-fixed-top
     .collapse.navbar-collapse
       ul.nav.navbar-nav
         li = link_to 'Import data', import_transactions_path
+        li = link_to 'Transactions', transactions_path(month: Date.today.beginning_of_month)
         = render 'layouts/navigation_links'

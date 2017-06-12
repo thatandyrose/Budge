@@ -20,6 +20,8 @@ class Transaction < ActiveRecord::Base
 
   }
 
+  scope :spending_expenses, ->{ expenses.where("category <> ?", 'internal transfer') }
+
   before_save :update_description_id
 
   CATEGORIES = [
@@ -43,7 +45,7 @@ class Transaction < ActiveRecord::Base
     'groceries',
     'rent',
     'internal transfer',
-    'current account transfer'
+    'current account transfer',
     'tax',
     'company admin',
     '** suspicious/unknown'
