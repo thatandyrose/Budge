@@ -49,6 +49,8 @@ class Transaction < ActiveRecord::Base
     'tax',
     'company admin',
     'parking',
+    'car insurance',
+    'car',
     '** suspicious/unknown'
   ]
 
