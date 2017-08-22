@@ -48,6 +48,7 @@ class Transaction < ActiveRecord::Base
     'current account transfer',
     'tax',
     'company admin',
+    'parking',
     '** suspicious/unknown'
   ]
 
