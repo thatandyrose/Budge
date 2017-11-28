@@ -26,6 +26,7 @@ class Transaction < ActiveRecord::Base
 
   CATEGORIES = [
     'utilities/telecomms',
+    'computer hardware',
     'entertainment/events/culture',
     'haircut',
     'fix/replace',
