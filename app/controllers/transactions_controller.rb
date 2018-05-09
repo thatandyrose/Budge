@@ -21,7 +21,8 @@ class TransactionsController < ApplicationController
   def import
     
     if params[:uri].present?
-      Transaction.import :barclays, params[:uri]
+      type = params[:uri].include?('lloyds') ? :lloyds ? :barclays
+      Transaction.import type, params[:uri]
       redirect_to root_path
     end
     
