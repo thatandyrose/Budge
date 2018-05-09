@@ -2,10 +2,6 @@ module Importers
 
   class BarclaysImporter < BaseImporter
 
-    def initialize(uri)
-      @uri = uri
-    end
-
     def self.sanitize(description)
       description.chars.select(&:valid_encoding?).join.encode('UTF-8')
     end
