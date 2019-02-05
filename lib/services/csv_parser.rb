@@ -3,7 +3,9 @@ require 'open-uri'
 
 class CsvParser
   
-  def initialize(file_uri)
+  def initialize(file_uri, options = {})
+    @options = options
+    @options[:col_sep] ||= CSV::DEFAULT_OPTIONS[:col_sep]
     @file_uri = file_uri
   end
 
@@ -34,7 +36,7 @@ class CsvParser
     quote_chars = %w(" | ~ ^ & *)
 
     begin
-      line = line.parse_csv quote_char: quote_chars.shift
+      line = line.parse_csv quote_char: quote_chars.shift, col_sep: @options[:col_sep]
     rescue CSV::MalformedCSVError
       quote_chars.empty? ? raise : retry 
     end
