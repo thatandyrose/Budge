@@ -69,7 +69,8 @@ module Importers
             transaction_type: is_income ? 'income' : 'expense',
             raw_description: "#{row[:subcategory]}: #{self.class.trim(memo)}",
             description: self.class.trim(self.class.clean_raw_description(memo)),
-            original_date: Date.parse(row[:date])
+            original_date: Date.parse(row[:date]),
+            source: 'barclays'
           )
 
           save_transaction!(t) if !t.has_dupe?

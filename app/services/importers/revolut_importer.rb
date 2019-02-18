@@ -14,7 +14,8 @@ module Importers
             transaction_type: is_income ? 'income' : 'expense',
             raw_description: "[#{row[:category]}] #{row[:reference]}",
             description: "[#{row[:category]}] #{row[:reference]}",
-            original_date: Date.parse(row[:completed_date])
+            original_date: Date.parse(row[:completed_date]),
+            source: 'revolut'
           )
 
           save_transaction!(t) if !t.has_dupe?

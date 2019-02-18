@@ -14,7 +14,8 @@ module Importers
             transaction_type: is_income ? 'income' : 'expense',
             raw_description: row[:transaction_description],
             description: row[:transaction_description],
-            original_date: Date.parse(row[:transaction_date])
+            original_date: Date.parse(row[:transaction_date]),
+            source: 'lloyds'
           )
 
           save_transaction!(t) if !t.has_dupe?
