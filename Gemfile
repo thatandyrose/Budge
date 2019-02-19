@@ -1,12 +1,12 @@
 source 'https://rubygems.org'
 ruby '2.3.0'
-gem 'rails', '4.1.5'
-gem 'sass-rails', '~> 4.0.3'
+gem 'rails', '5.2.2'
+gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
-gem 'coffee-rails', '~> 4.0.0'
+gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'turbolinks'
-gem 'jbuilder', '~> 2.0'
+gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
 gem 'bootstrap-sass'
@@ -17,8 +17,7 @@ gem 'slim-rails'
 gem 'thin'
 gem 'string-utils'
 
-group :development do    
-  gem 'quiet_assets'
+group :development do
   gem 'rails_layout'
   gem 'spring-commands-rspec'
 end
