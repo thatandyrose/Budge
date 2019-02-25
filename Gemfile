@@ -5,7 +5,6 @@ gem 'sass-rails'
 gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails'
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'jbuilder'
 gem 'sdoc', '~> 0.4.0',          group: :doc
 gem 'spring',        group: :development
@@ -16,6 +15,8 @@ gem 'pg'
 gem 'slim-rails'
 gem 'thin'
 gem 'string-utils'
+gem 'webpacker'
+gem 'foreman'
 
 group :development do
   gem 'rails_layout'

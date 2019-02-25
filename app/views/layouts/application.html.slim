@@ -5,8 +5,14 @@ html
     title
       = content_for?(:title) ? yield(:title) : 'Budge'
     meta name="description" content="#{content_for?(:description) ? yield(:description) : 'Budge'}"
-    == stylesheet_link_tag "application", :media => 'all', 'data-turbolinks-track' => true
-    == javascript_include_tag 'application', 'data-turbolinks-track' => true
+    == stylesheet_link_tag "application", :media => 'all'
+    
+    - if content_for?(:main_js_file)
+      == yield(:main_js_file)
+    - else
+      == javascript_include_tag 'application'
+
+    
     == csrf_meta_tags
   body
     header
