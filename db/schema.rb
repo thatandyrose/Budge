@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,44 +10,43 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190218195201) do
+ActiveRecord::Schema.define(version: 2019_02_18_195201) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "transactions", force: true do |t|
-    t.date     "date"
-    t.decimal  "amount"
-    t.text     "tags"
-    t.string   "transaction_type"
-    t.text     "description"
+  create_table "transactions", id: :serial, force: :cascade do |t|
+    t.date "date"
+    t.decimal "amount"
+    t.text "tags"
+    t.string "transaction_type", limit: 255
+    t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "category"
-    t.text     "raw_description"
-    t.string   "description_id"
-    t.date     "triggered_apply_to_similar"
-    t.date     "original_date"
-    t.string   "source"
+    t.string "category", limit: 255
+    t.text "raw_description"
+    t.string "description_id", limit: 255
+    t.date "triggered_apply_to_similar"
+    t.date "original_date"
+    t.string "source", limit: 255
   end
 
-  create_table "users", force: true do |t|
-    t.string   "email",                  default: "", null: false
-    t.string   "encrypted_password",     default: "", null: false
-    t.string   "reset_password_token"
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "email", limit: 255, default: "", null: false
+    t.string "encrypted_password", limit: 255, default: "", null: false
+    t.string "reset_password_token", limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0,  null: false
+    t.integer "sign_in_count", default: 0, null: false
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.inet     "current_sign_in_ip"
-    t.inet     "last_sign_in_ip"
+    t.inet "current_sign_in_ip"
+    t.inet "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "name"
+    t.string "name", limit: 255
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
 end

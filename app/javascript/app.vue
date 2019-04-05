@@ -14,6 +14,8 @@
             a(href="#" @click.prevent="transactionType = 'income'") Incomes
         
         ul.nav.nav-pills
+          li(:class="!category ? 'active' : ''")
+            a(href='#' @click.prevent="category = null") All
           li(v-for="cat in categories" :class="category == cat.name ? 'active' : ''")
             a(href='#' @click.prevent="category = cat.name") {{cat.name}} <span class="badge">{{cat.amount}}</span>
         
@@ -66,9 +68,7 @@ export default {
   },
   watch: {
     category(newVal) {
-      if(newVal){
-        this.reloadTransactions();
-      }
+      this.reloadTransactions();
     },
     transactionType(newVal) {
       if(newVal){
@@ -90,14 +90,39 @@ export default {
         vm.allCategories = response.all_categories;
         vm.categories = response.categories;
         vm.transactions = response.transactions;
+        vm.transactions = vm.transactions.map(t => {
+          if (!t.category) {
+            if (t.description.toLowerCase().search('uber') > -1 && t.description.toLowerCase().search('trip') > -1) {
+              t.category = 'taxi';
+              vm.updateTransaction(t.id, {category: t.category});
+            }
+
+            if (t.description.toLowerCase().search('cash at') > -1) {
+              t.category = 'cash';
+              vm.updateTransaction(t.id, {category: t.category});
+            }
+          }
+
+          return t;
+        });
         vm.loading = false;
       });
     },
     toggleShowRaw(transaction) {
-      transaction.showRaw = !!!transaction.showRaw;
+      this.transactions = this.transactions.map((t) => {
+        if (t.id == transaction.id) {
+          t.showRaw = !!!t.showRaw
+        }
+        return t;
+      });
     },
     toggleCategoryEditMode(transaction) {
-      transaction.showCategoryEditUi = !!!transaction.showCategoryEditUi
+      this.transactions = this.transactions.map((t) => {
+        if (t.id == transaction.id) {
+          t.showCategoryEditUi = !!!t.showCategoryEditUi
+        }
+        return t;
+      });
     },
     handleCategoryChangeEvent(event, transaction) {
       transaction.category = event.target.value;

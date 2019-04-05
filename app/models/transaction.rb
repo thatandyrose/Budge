@@ -52,7 +52,8 @@ class Transaction < ActiveRecord::Base
     'parking',
     'car insurance',
     'car',
-    '** suspicious/unknown'
+    '** suspicious/unknown',
+    'cash'
   ]
 
   def self.filter(params)
