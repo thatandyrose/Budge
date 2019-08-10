@@ -59,22 +59,23 @@ module Importers
       Transaction.transaction do
 
         CsvParser.new(@uri).iterate_csv do |row|
-          is_income = row[:amount].to_d > 0
+          if row[:amount].present?
+            is_income = row[:amount].to_d > 0
 
-          memo = self.class.sanitize row[:memo]
+            memo = self.class.sanitize row[:memo]
 
-          t = Transaction.new(
-            date: self.class.extract_date(row[:date], memo) || Date.parse(row[:date]),
-            amount: row[:amount].gsub(',','').to_d.abs,
-            transaction_type: is_income ? 'income' : 'expense',
-            raw_description: "#{row[:subcategory]}: #{self.class.trim(memo)}",
-            description: self.class.trim(self.class.clean_raw_description(memo)),
-            original_date: Date.parse(row[:date]),
-            source: 'barclays'
-          )
+            t = Transaction.new(
+              date: self.class.extract_date(row[:date], memo) || Date.parse(row[:date]),
+              amount: row[:amount].gsub(',','').to_d.abs,
+              transaction_type: is_income ? 'income' : 'expense',
+              raw_description: "#{row[:subcategory]}: #{self.class.trim(memo)}",
+              description: self.class.trim(self.class.clean_raw_description(memo)),
+              original_date: Date.parse(row[:date]),
+              source: 'barclays'
+            )
 
-          save_transaction!(t) if !t.has_dupe?
-
+            save_transaction!(t) if !t.has_dupe?
+          end
         end
 
       end

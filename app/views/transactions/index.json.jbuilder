@@ -12,4 +12,5 @@ json.transactions @transactions do |t|
   json.raw_description t.raw_description
   json.category t.category
   json.triggered_apply_to_similar t.triggered_apply_to_similar
+  json.source t.source
 end

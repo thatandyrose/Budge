@@ -24,6 +24,7 @@
             th date
             th amount
             th description
+            th source
             th category
             th
             th
@@ -37,6 +38,7 @@
                   a(href='#' @click.prevent="toggleShowRaw(t)") show raw
                 div(v-if="t.showRaw")
                   small {{t.original_date}} - {{t.raw_description}}
+              td {{t.source}}
               td
                 a(href='#' v-if="t.category" @click.prevent="toggleCategoryEditMode(t)")
                   span.label.label-default {{t.category}}
