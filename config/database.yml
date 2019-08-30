@@ -18,8 +18,8 @@ development:
   encoding: unicode
   database: Budge_development
   pool:     5
-  username: postgres
-  password: 
+  username: vagrant
+  password: vagrant
   template: template0
 
   # Connect on a TCP socket. Omitted by default since the client uses a
@@ -46,8 +46,8 @@ test:
   encoding: unicode
   database: Budge_test
   pool:     5
-  username: postgres
-  password: 
+  username: vagrant
+  password: vagrant
   template: template0
 
 production:
