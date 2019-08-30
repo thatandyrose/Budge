@@ -19,22 +19,22 @@ ActiveRecord::Schema.define(version: 2019_02_18_195201) do
     t.date "date"
     t.decimal "amount"
     t.text "tags"
-    t.string "transaction_type", limit: 255
+    t.string "transaction_type"
     t.text "description"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "category", limit: 255
+    t.string "category"
     t.text "raw_description"
-    t.string "description_id", limit: 255
+    t.string "description_id"
     t.date "triggered_apply_to_similar"
     t.date "original_date"
-    t.string "source", limit: 255
+    t.string "source"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|
-    t.string "email", limit: 255, default: "", null: false
-    t.string "encrypted_password", limit: 255, default: "", null: false
-    t.string "reset_password_token", limit: 255
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
     t.integer "sign_in_count", default: 0, null: false
@@ -44,7 +44,7 @@ ActiveRecord::Schema.define(version: 2019_02_18_195201) do
     t.inet "last_sign_in_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string "name", limit: 255
+    t.string "name"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

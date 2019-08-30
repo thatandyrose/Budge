@@ -1,5 +1,5 @@
 = form_tag(import_transactions_path, method: :get) do
   .form-group
     = text_field_tag :uri, params[:uri], class: 'form-control' 
-    = select_tag :bank, options_for_select([ "barclays", "lloyds", "revolut" ], "barclays")
+    = select_tag :bank, options_for_select([ "barclays", "lloyds", "revolut" "sabadell" ], "barclays")
     = submit_tag :import, class: 'btn btn-lg btn-default'
