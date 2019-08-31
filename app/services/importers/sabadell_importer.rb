@@ -4,7 +4,7 @@ module Importers
 
     def import
       Transaction.transaction do
-        CsvParser.new(@uri, col_sep: ';').iterate_csv do |row|
+        ::CsvParser.new(@uri, col_sep: ';').iterate_csv do |row|
           is_income = row[:amount].to_d > 0
 
           description = row[:item].to_s.encode('UTF-8', invalid: :replace, undef: :replace)
