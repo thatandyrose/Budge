@@ -23,6 +23,9 @@ module Budge
     config.autoload_paths += %W(#{config.root}/app/services)
     config.autoload_paths += %W(#{config.root}/lib/services)
 
+    config.eager_load_paths += %W(#{config.root}/app/services)
+    config.eager_load_paths += %W(#{config.root}/lib/services)
+
     config.time_zone = 'Eastern Time (US & Canada)'
 
     # Settings in config/environments/* take precedence over those specified here.
