@@ -52,7 +52,7 @@ class CsvParser
       if !key[0].match(/^[a-zA-Z0-9_-]+$/)
         key.slice!(0)
       end
-      new_hash = new_hash.merge(key.urlify.gsub('-', '_').to_sym => values_array[i])
+      new_hash = new_hash.merge(key.encode('utf-8').urlify.gsub('-', '_').to_sym => values_array[i])
     end
 
     new_hash
