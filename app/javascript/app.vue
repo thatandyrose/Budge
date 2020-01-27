@@ -7,6 +7,7 @@
           | month
           input(v-model="month")
           button.btn.btn-primary(v-if="month", @click="reloadTransactions") Change month
+        button.btn.btn-primary(@click="runRulesUpdate") Run rules
         ul.nav.nav-tabs
           li(:class="transactionType == 'expense' ? 'active' : ''")
             a(href="#" @click.prevent="transactionType = 'expense'") Expenses
@@ -152,6 +153,22 @@ export default {
           vm.reloadTransactions();
         },
         error(error) {
+          alert(error);
+        }
+      })
+    },
+    runRulesUpdate() {
+      let vm = this;
+      vm.loading = true;
+      $.ajax({
+        url: `/transactions/run_rules.json`,
+        type: 'GET',
+        success(response) {
+          vm.loading = false;
+          vm.reloadTransactions();
+        },
+        error(error) {
+          vm.loading = false;
           alert(error);
         }
       })

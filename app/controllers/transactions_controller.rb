@@ -29,6 +29,12 @@ class TransactionsController < ApplicationController
     render json: {success: true}
   end
 
+  def run_rules
+    Transaction.run_rules
+    @transactions = Transaction.filter(params)
+    render json: {success: true}
+  end
+
   def update
     @transaction.update_attributes! strong_params
     render json: {success: true}
