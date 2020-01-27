@@ -146,7 +146,11 @@ class Transaction < ActiveRecord::Base
   
   def run_rules
     if category.blank? && amount < 200
+      apply_rule "Amazon.co.uk", 'shopping'
+
       apply_rule "AMAZON.ES", 'shopping'
+
+      apply_rule "EL CORTE INGLES", 'shopping'
 
       apply_rule "amazon fx rate", 'shopping'
 
@@ -182,6 +186,12 @@ class Transaction < ActiveRecord::Base
 
       apply_rule "CARNICERIA", 'groceries'
 
+      apply_rule "Fruteria", 'groceries'
+
+      apply_rule "Maskom", 'groceries'
+
+      apply_rule "Supercor", 'groceries'
+
       apply_rule "AMZN Mktp", 'shopping'
 
       apply_rule "EE BROADBAND", 'utilities/telecomms'
@@ -207,6 +217,8 @@ class Transaction < ActiveRecord::Base
       apply_rule "Organic With Love", "groceries", 'sabadell'
 
       apply_rule "AUTOPISTA DEL SOL SPAIN", "car"
+
+      apply_rule "Audible Ltd", "utilities/telecomms"
     end
   end
 
