@@ -17,6 +17,7 @@ gem 'thin'
 gem 'string-utils'
 gem 'webpacker'
 gem 'foreman'
+gem 'httparty'
 
 group :development do
   gem 'rails_layout'
