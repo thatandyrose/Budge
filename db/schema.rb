@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_02_18_195201) do
+ActiveRecord::Schema.define(version: 2020_04_10_124312) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -29,6 +29,8 @@ ActiveRecord::Schema.define(version: 2019_02_18_195201) do
     t.date "triggered_apply_to_similar"
     t.date "original_date"
     t.string "source"
+    t.decimal "amount_non_gbp"
+    t.string "non_gbp_currency"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

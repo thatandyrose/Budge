@@ -145,7 +145,7 @@ class Transaction < ActiveRecord::Base
   end
   
   def run_rules
-    if category.blank? && amount < 200
+    if amount && category.blank? && amount < 200
       apply_rule "Amazon.co.uk", 'shopping'
 
       apply_rule "AMAZON.ES", 'shopping'

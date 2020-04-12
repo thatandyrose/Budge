@@ -1,6 +1,8 @@
 class ConvertRequiredCurrencies
   def call
+    puts "Starting currency conversion"
     batch_update
+    puts "Done"
   end
 
   def transactions_to_update
@@ -8,17 +10,39 @@ class ConvertRequiredCurrencies
       .where.not(amount_non_gbp:nil)
       .where.not(non_gbp_currency: nil)
       .where(amount: nil)
+  end
+
+  def sql_months
+    transactions_to_update
+    .select("distinct(date_trunc('month', date)) as m")
+    .order("m asc").map &:m
+  end
+
+  def transactions_for_month(sql_month)
+    transactions_to_update
+      .where("date_trunc('month', date) = ?", sql_month)
       .order(date: :asc)
   end
 
   def batch_update
-    if transactions_to_update.count > 0
-      transactions = transactions_to_update.limit(100).to_a
-      rates = get_rates(transactions)
+    count = transactions_to_update.count
+    puts "Transactions to update: #{count}"
+    
+    if count > 0
+      puts "About to loop through months"
+      sql_months.each do |sql_month|
+        transactions = transactions_for_month(sql_month).to_a
+        rates = get_rates(transactions)
 
-      transactions.each do |t|
-        t.amount = t.amount_non_gbp.to_d * rate_for_day(rates, t.date.to_date.to_s).round(2)
-        t.save!
+        puts "Month: #{sql_month}, transactions: #{transactions.count}, rate: #{rates.count}"
+
+        transactions.each do |t|
+          rate = rate_for_day rates, t.date.to_date.to_s
+          puts "rate: #{rate}"
+          t.amount = (t.amount_non_gbp.to_d * rate).round(2)
+          puts "old amount: #{t.amount_non_gbp}, new amount: #{t.amount}"
+          t.save!
+        end
       end
 
       batch_update
@@ -38,8 +62,8 @@ class ConvertRequiredCurrencies
     if rate_object
       rate_object[:rate]
     else
-      before_rate = rates.select{|r| Date.parse(r[:date]) < Date.parse(date_string)}.last || {date: Date.parse(date_string) - 10.years}
-      after_rate = rates.select{|r| Date.parse(r[:date]) > Date.parse(date_string)}.first || {date: Date.parse(date_string) + 10.years}
+      before_rate = rates.select{|r| Date.parse(r[:date]) < Date.parse(date_string)}.last || {date: (Date.parse(date_string) - 10.years).to_s}
+      after_rate = rates.select{|r| Date.parse(r[:date]) > Date.parse(date_string)}.first || {date: (Date.parse(date_string) + 10.years).to_s}
 
       [before_rate, after_rate].sort_by{|r| (Date.parse(r[:date]) - Date.parse(date_string)).to_i.abs}.first[:rate]
     end

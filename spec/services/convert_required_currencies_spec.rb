@@ -32,9 +32,9 @@ describe ConvertRequiredCurrencies do
   it 'should correctly convert the records that need it' do
     ConvertRequiredCurrencies.new.batch_update
 
-    expect(Transaction.order(date: :asc).pluck :amount).to_eq([
+    expect(Transaction.order(id: :asc).pluck(:amount).map{|a| !a ? a.to_s : a.round(2).to_s}).to eq([
       1, 2, 0, 4.5, nil, nil, 6, 7.5, 9, 13.3, 15.2, 17.1, 19
-    ])
+  ].map{|a| !a ? a.to_s : a.round(2).to_s})
   end
 
 end
