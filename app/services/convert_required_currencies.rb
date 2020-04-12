@@ -26,21 +26,16 @@ class ConvertRequiredCurrencies
 
   def batch_update
     count = transactions_to_update.count
-    puts "Transactions to update: #{count}"
-    
+
     if count > 0
-      puts "About to loop through months"
       sql_months.each do |sql_month|
         transactions = transactions_for_month(sql_month).to_a
         rates = get_rates(transactions)
 
-        puts "Month: #{sql_month}, transactions: #{transactions.count}, rate: #{rates.count}"
-
         transactions.each do |t|
           rate = rate_for_day rates, t.date.to_date.to_s
-          puts "rate: #{rate}"
           t.amount = (t.amount_non_gbp.to_d * rate).round(2)
-          puts "old amount: #{t.amount_non_gbp}, new amount: #{t.amount}"
+          puts "Month: #{sql_month}, rate: #{rates.count}, old amount: #{t.amount_non_gbp}, new amount: #{t.amount}"
           t.save!
         end
       end
