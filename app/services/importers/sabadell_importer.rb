@@ -11,7 +11,8 @@ module Importers
 
           t = Transaction.new(
             date: Date.parse(row[:operation_date]),
-            amount: row[:amount].to_d.abs,
+            amount_non_gbp: row[:amount].to_d.abs,
+            non_gbp_currency: 'EUR'
             transaction_type: is_income ? 'income' : 'expense',
             raw_description: description,
             description: description,
