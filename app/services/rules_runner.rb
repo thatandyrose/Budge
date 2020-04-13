@@ -92,6 +92,16 @@ class RulesRunner
       apply_rule "Yogazone", 'fitness/gym/yoga'
 
       apply_rule "Restaurante La Ruta", 'food and drink'
+
+      apply_rule "GUARDIAN NEWS", 'entertainment/events/culture'
+
+      apply_rule "MINI INDIA", 'food and drink'
+
+      apply_rule "Audible UK", 'entertainment/events/culture'
+
+      apply_rule "ANDREW ROSE TOP UP", 'internal transfer'
+
+      apply_rule "REVOLUT", 'internal transfer', 'barclays'
     end
   end
 
