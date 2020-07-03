@@ -14,7 +14,7 @@ class RulesRunner
       apply_rule "amazon fx rate", 'shopping'
 
       apply_rule "amazon.es-amazon.es", 'shopping'
-      
+
       apply_rule "mundo mania", 'entertainment/events/culture'
       apply_rule "Mundo ManÃ­a FX", 'entertainment/events/culture'
       apply_rule "netflix", 'entertainment/events/culture'
@@ -102,6 +102,12 @@ class RulesRunner
       apply_rule "ANDREW ROSE TOP UP", 'internal transfer'
 
       apply_rule "REVOLUT", 'internal transfer', 'barclays'
+
+      apply_rule "viva aqua", 'groceries'
+
+      apply_rule "experian", 'utilities/telecomms'
+
+      apply_rule "GUARDIAN MEDIA", 'entertainment/events/culture'
     end
   end
 
