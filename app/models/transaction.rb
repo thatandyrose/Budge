@@ -91,7 +91,6 @@ class Transaction < ActiveRecord::Base
   def self.run_rules
     Transaction
       .where(category: nil)
-      .where("amount < 200")
       .find_each(batch_size: 500) do |t|
         t.run_rules
         t.save!
@@ -131,7 +130,7 @@ class Transaction < ActiveRecord::Base
   def update_description_id
     self.description_id = description.urlify
   end
-  
+
   def run_rules
     RulesRunner.new(self).call
   end
