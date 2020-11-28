@@ -1,7 +1,7 @@
 Rails.application.configure do
   # Verifies that versions and hashed value of the package contents in the project's package.json
   config.webpacker.check_yarn_integrity = true
-  
+
   # Make javascript_pack_tag load assets from webpack-dev-server.
   config.x.webpacker[:dev_server_host] = 'http://localhost:8080'
 
@@ -57,4 +57,6 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
+
+  @@my_logger ||= Logger.new("#{Rails.root}/log/my.log")
 end
