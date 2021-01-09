@@ -10,17 +10,21 @@ module Importers
 
           description = row[:description].to_s.encode('UTF-8', invalid: :replace, undef: :replace)
 
+          amount = row[:paid_out_gbp].presence || row[:paid_in_gbp].presence
+
           t = Transaction.new(
             date: Date.parse(row[:completed_date]),
-            amount: (row[:paid_out_gbp].presence || row[:paid_in_gbp].presence).to_d,
+            amount: amount.to_d,
             transaction_type: is_income ? 'income' : 'expense',
             raw_description: "[#{row[:category]}] #{description}",
             description: "[#{row[:category]}] #{description}",
             original_date: Date.parse(row[:completed_date]),
-            source: 'revolut'
+            source: 'revolut',
+            raw_amount: amount.gsub(',','').to_d.abs,
+            raw_amount_string: amount
           )
 
-          save_transaction!(t) if !t.has_dupe?
+          save_transaction!(t)
 
         end
 
