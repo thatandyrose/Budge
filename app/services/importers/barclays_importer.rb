@@ -71,10 +71,12 @@ module Importers
               raw_description: "#{row[:subcategory]}: #{self.class.trim(memo)}",
               description: self.class.trim(self.class.clean_raw_description(memo)),
               original_date: Date.parse(row[:date]),
-              source: 'barclays'
+              source: 'barclays',
+              raw_amount: row[:amount].gsub(',','').to_d.abs,
+              raw_amount_string: row[:amount]
             )
 
-            save_transaction!(t) if !t.has_dupe?
+            save_transaction!(t)
           end
         end
 

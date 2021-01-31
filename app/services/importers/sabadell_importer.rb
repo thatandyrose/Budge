@@ -17,10 +17,12 @@ module Importers
             raw_description: description,
             description: description,
             original_date: Date.parse(row[:operation_date]),
-            source: 'sabadell'
+            source: 'sabadell',
+            raw_amount: row[:amount].gsub(',','').to_d.abs,
+            raw_amount_string: row[:amount]
           )
 
-          save_transaction!(t) if !t.has_dupe?
+          save_transaction!(t)
 
         end
 

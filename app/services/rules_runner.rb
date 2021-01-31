@@ -127,6 +127,8 @@ class RulesRunner
 
       apply_rule "IAN HANCOCK", 'rent', {source: 'lloyds', max_amount: 1600, min_amount: 1400}
 
+      apply_rule "IAN HANCOCK", 'house stuff', {source: 'lloyds', max_amount: 200}
+
       apply_rule "CHIRINGUITO", 'food and drink', {source: 'lloyds', max_amount: 40}
 
       apply_rule "CHIRINGUITO", 'food and drink', {source: 'barclays', max_amount: 40}
@@ -146,6 +148,10 @@ class RulesRunner
       apply_rule "[Restaurants]", 'food and drink', {source: 'revolut', max_amount: 40}
 
       apply_rule "[Restaurants]", 'food and drink', {source: 'barclays', max_amount: 40}
+
+      apply_rule "Costajump", 'entertainment/events/culture'
+
+
     end
   end
 
