@@ -124,7 +124,15 @@ class Transaction < ActiveRecord::Base
   end
 
   def has_dupe?
-    Transaction.where(date: date, amount: amount, transaction_type: transaction_type, description: description).where.not(id: id).first
+    query = Transaction.where(date: date, transaction_type: transaction_type, description: description).where.not(id: id)
+
+    if !amount && amount_non_gbp > 0
+      query = query.where(amount_non_gbp: amount_non_gbp)
+    else
+      query = query.where(amount: amount)
+    end
+
+    query.first
   end
 
   def update_description_id
