@@ -12,7 +12,7 @@ module Importers
 
           t = Transaction.new(
             date: Date.parse(row[:transaction_date]),
-            amount: amount.to_d,
+            amount: amount.gsub(',','').to_d.abs,
             transaction_type: is_income ? 'income' : 'expense',
             raw_description: row[:transaction_description],
             description: row[:transaction_description],

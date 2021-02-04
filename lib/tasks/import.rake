@@ -1,7 +1,7 @@
 namespace :import do
 
-  task :report => [:environment] do
-    ts = Transaction
+  def amount_wrong
+    Transaction
       .where.not(amount_non_gbp: nil)
       .where("amount_non_gbp <> raw_amount")
       .or(
@@ -9,9 +9,25 @@ namespace :import do
           .where(amount_non_gbp: nil)
           .where("amount <> raw_amount")
       )
-      .where(transaction_type: 'expense')
+  end
 
-    ts.each do |t|
+  task :fix => [:environment] do
+    amount_wrong.each do |t|
+      if t.amount_non_gbp
+        t.amount_non_gbp = t.raw_amount
+        t.amount = nil
+        t.save!
+      else
+        t.amount = t.raw_amount
+        t.save!
+      end
+    end
+
+    ConvertRequiredCurrencies.new.call
+  end
+
+  task :report => [:environment] do
+    amount_wrong.each do |t|
       puts "date: #{t.date}, description: #{t.description}, amount: #{t.amount_non_gbp || t.amount}, raw: #{t.raw_amount}, source: #{t.source}, type: #{t.transaction_type}"
     end
   end

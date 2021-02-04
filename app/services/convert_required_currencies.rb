@@ -35,7 +35,7 @@ class ConvertRequiredCurrencies
         transactions.each do |t|
           rate = rate_for_day rates, t.date.to_date.to_s
           t.amount = (t.amount_non_gbp.to_d * rate).round(2)
-          puts "Month: #{sql_month}, rate: #{rates.count}, old amount: #{t.amount_non_gbp}, new amount: #{t.amount}"
+          puts "Month: #{sql_month}, rate: #{rate}, old amount: #{t.amount_non_gbp}, new amount: #{t.amount}"
           t.save!
         end
       end

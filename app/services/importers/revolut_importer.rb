@@ -14,7 +14,7 @@ module Importers
 
           t = Transaction.new(
             date: Date.parse(row[:completed_date]),
-            amount: amount.to_d,
+            amount: amount.gsub(',','').to_d.abs,
             transaction_type: is_income ? 'income' : 'expense',
             raw_description: "[#{row[:category]}] #{description}",
             description: "[#{row[:category]}] #{description}",
